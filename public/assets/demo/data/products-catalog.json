@@ -1,0 +1,7 @@
+{
+    "data": [
+        {"id": "2000","name": "MyMoney","price": 100,"discount": 8},
+        {"id": "2001","name": "FamilyAlbum","price": 80,"discount": 15},
+        {"id": "2002","name": "ScreenSaver","price": 20,"discount": 10}
+    ]
+}
