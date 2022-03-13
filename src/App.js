@@ -5,21 +5,15 @@ import { CSSTransition } from 'react-transition-group';
 import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
-import { AppConfig } from './AppConfig';
-
-import Dashboard from './components/Dashboard';
-
-import Crud from './pages/Crud';
+import Dashboard from './pages/Dashboard';
+import NewOrder from './pages/NewOrder';
 import Catalog from './pages/Catalog';
-
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'prismjs/themes/prism-coy.css';
-import './assets/demo/flags/flags.css';
-import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
 import Login from "./pages/Login";
@@ -27,8 +21,7 @@ import {ProductService} from "./service/ProductService";
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
-    const [layoutColorMode, setLayoutColorMode] = useState('light')
-    const [inputStyle, setInputStyle] = useState('outlined');
+    const [layoutColorMode, setLayoutColorMode] = useState('light');
     const [ripple, setRipple] = useState(true);
     const [staticMenuInactive, setStaticMenuInactive] = useState(false);
     const [overlayMenuActive, setOverlayMenuActive] = useState(false);
@@ -64,23 +57,6 @@ const App = () => {
             productService.getProducts().then(data => sessionStorage.setItem("orders",JSON.stringify(data)));
         }
     }, []);
-
-    const onInputStyleChange = (inputStyle) => {
-        setInputStyle(inputStyle);
-    }
-
-    const onRipple = (e) => {
-        PrimeReact.ripple = e.value;
-        setRipple(e.value)
-    }
-
-    const onLayoutModeChange = (mode) => {
-        setLayoutMode(mode)
-    }
-
-    const onColorModeChange = (mode) => {
-        setLayoutColorMode(mode)
-    }
 
     const onWrapperClick = (event) => {
         if (!menuClick) {
@@ -152,8 +128,7 @@ const App = () => {
             items: [
                 { label: 'Orders', icon: 'pi pi-fw pi-home', to: '/' },
                 { label: "Catalog", icon: "pi pi-fw pi-circle-off", to: "/catalog" },
-                { label: 'New Order', icon: 'pi pi-fw pi-user-edit', to: '/crud' }
-
+                { label: 'New Order', icon: 'pi pi-fw pi-user-edit', to: '/new_order' }
             ]
         }
     ];
@@ -173,14 +148,9 @@ const App = () => {
     }
 
     const wrapperClass = classNames('layout-wrapper', {
-        'layout-overlay': layoutMode === 'overlay',
         'layout-static': layoutMode === 'static',
         'layout-static-sidebar-inactive': staticMenuInactive && layoutMode === 'static',
-        'layout-overlay-sidebar-active': overlayMenuActive && layoutMode === 'overlay',
-        'layout-mobile-sidebar-active': mobileMenuActive,
-        'p-input-filled': inputStyle === 'filled',
-        'p-ripple-disabled': ripple === false,
-        'layout-theme-light': layoutColorMode === 'light'
+        'p-ripple-disabled': ripple === false
     });
 
     if(!isAuthenticated) {
@@ -201,16 +171,13 @@ const App = () => {
             <div className="layout-main-container">
                 <div className="layout-main">
                     <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
-                    <Route path="/crud" component={Crud} />
+                    <Route path="/new_order" component={NewOrder} />
                     <Route path="/catalog" component={Catalog} />
                     <Route path="/login" component={Login} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
             </div>
-
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
             <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
                 <div className="layout-mask p-component-overlay"></div>

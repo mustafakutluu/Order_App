@@ -6,6 +6,7 @@ import {InputText} from "primereact/inputtext";
 import {Toast} from "primereact/toast";
 import {Toolbar} from "primereact/toolbar";
 import {Dialog} from "primereact/dialog";
+import { useHistory } from 'react-router-dom';
 
 const Dashboard = (props) => {
 
@@ -24,12 +25,11 @@ const Dashboard = (props) => {
     const [orders, setOrders] = useState(null);
     const [lineOptions, setLineOptions] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
-    const [orderDialog, setOrderDialog] = useState(false);
-    const [deleteOrderDialog, setDeleteOrderDialog] = useState(false);
     const [deleteOrdersDialog, setDeleteOrdersDialog] = useState(false);
     const [order, setOrder] = useState(emptyOrder);
     const [selectedOrders, setSelectedOrders] = useState(null);
     const toast = useRef(null);
+    const history = useHistory();
 
     const applyLightTheme = () => {
         const lineOptions = {
@@ -108,42 +108,7 @@ const Dashboard = (props) => {
     }, [props.colorMode]);
 
     const editOrder = (order) => {
-        setOrder({ ...order });
-        setOrderDialog(true);
-    }
-
-    const confirmDeleteOrder = (order) => {
-        setOrder(order);
-        setDeleteOrderDialog(true);
-    }
-
-    const deleteOrder = () => {
-        let _orders = orders.filter(val => val.id !== order.id);
-        setOrders(_orders);
-        setDeleteOrderDialog(false);
-        setOrder(emptyOrder);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Order Deleted', life: 3000 });
-    }
-
-    const findIndexById = (id) => {
-        let index = -1;
-        for (let i = 0; i < orders.length; i++) {
-            if (orders[i].id === id) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
-    }
-
-    const createId = () => {
-        let id = '';
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (let i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
+        history.push({pathname:'/new_order', state:{selectedOrder: order}});
     }
 
     const header = (
@@ -212,9 +177,10 @@ const Dashboard = (props) => {
                                globalFilter={globalFilter} emptyMessage="No orders found." header={header}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem'}}></Column>
                         <Column field="name" header="Name" sortable headerStyle={{ width: '10%', minWidth: '10rem' }}></Column>
-                        <Column field="product" header="Product" sortable headerStyle={{ width: '10%', minWidth: '10rem' }}></Column>
-                        <Column field="quantity" header="#" sortable headerStyle={{ width: '2%', minWidth: '2rem' }}></Column>
-                        <Column field="date" header="Date" sortable headerStyle={{ width: '10%', minWidth: '10rem' }}></Column>
+                        <Column field="product" header="Product" sortable headerStyle={{ width: '8%', minWidth: '4rem' }}></Column>
+                        <Column field="quantity" header="#" sortable headerStyle={{ width: '1%', minWidth: '1rem' }}></Column>
+                        <Column field="price" header="price" sortable headerStyle={{ width: '1%', minWidth: '1rem' }}></Column>
+                        <Column field="date" header="Date" sortable headerStyle={{ width: '8%', minWidth: '6rem' }}></Column>
                         <Column field="street" header="Street" sortable headerStyle={{ width: '10%', minWidth: '10rem' }}></Column>
                         <Column field="city" header="City" sortable headerStyle={{ width: '10%', minWidth: '10rem' }}></Column>
                         <Column field="state" header="State" sortable headerStyle={{ width: '10%', minWidth: '8rem' }}></Column>
