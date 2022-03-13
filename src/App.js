@@ -22,7 +22,6 @@ import {ProductService} from "./service/ProductService";
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light');
-    const [ripple, setRipple] = useState(true);
     const [staticMenuInactive, setStaticMenuInactive] = useState(false);
     const [overlayMenuActive, setOverlayMenuActive] = useState(false);
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
@@ -150,7 +149,7 @@ const App = () => {
     const wrapperClass = classNames('layout-wrapper', {
         'layout-static': layoutMode === 'static',
         'layout-static-sidebar-inactive': staticMenuInactive && layoutMode === 'static',
-        'p-ripple-disabled': ripple === false
+        'p-ripple-disabled': false
     });
 
     if(!isAuthenticated) {

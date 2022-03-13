@@ -23,7 +23,6 @@ const Dashboard = (props) => {
     };
 
     const [orders, setOrders] = useState(null);
-    const [lineOptions, setLineOptions] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
     const [deleteOrdersDialog, setDeleteOrdersDialog] = useState(false);
     const [order, setOrder] = useState(emptyOrder);
@@ -31,81 +30,9 @@ const Dashboard = (props) => {
     const toast = useRef(null);
     const history = useHistory();
 
-    const applyLightTheme = () => {
-        const lineOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#495057'
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: '#495057'
-                    },
-                    grid: {
-                        color: '#ebedef',
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: '#495057'
-                    },
-                    grid: {
-                        color: '#ebedef',
-                    }
-                },
-            }
-        };
-
-        setLineOptions(lineOptions)
-    }
-
-    const applyDarkTheme = () => {
-        const lineOptions = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#ebedef'
-                    }
-                }
-            },
-            scales: {
-                x: {
-                    ticks: {
-                        color: '#ebedef'
-                    },
-                    grid: {
-                        color: 'rgba(160, 167, 181, .3)',
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: '#ebedef'
-                    },
-                    grid: {
-                        color: 'rgba(160, 167, 181, .3)',
-                    }
-                },
-            }
-        };
-
-        setLineOptions(lineOptions)
-    }
-
     useEffect(() => {
         setOrders(JSON.parse(sessionStorage.getItem("orders")));
     }, []);
-
-    useEffect(() => {
-        if (props.colorMode === 'light') {
-            applyLightTheme();
-        } else {
-            applyDarkTheme();
-        }
-    }, [props.colorMode]);
 
     const editOrder = (order) => {
         history.push({pathname:'/new_order', state:{selectedOrder: order}});

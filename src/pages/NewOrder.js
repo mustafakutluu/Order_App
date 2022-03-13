@@ -56,7 +56,7 @@ const NewOrder = () => {
         });
 
         setOrders(JSON.parse(sessionStorage.getItem("orders")));
-    }, []);
+    }, [location.state]);
 
     const onCategoryChange = (e) => {
         setProduct(e.value);
@@ -130,7 +130,7 @@ const NewOrder = () => {
 
         setSubmitted(true);
 
-        if (order.name.trim()) {
+        if (order.name.trim() && order.street.trim() && order.city.trim()) {
             let _orders = [...orders];
             let _order = { ...order };
             if (order.id) {
@@ -149,14 +149,13 @@ const NewOrder = () => {
             setOrders(_orders);
             sessionStorage.setItem("orders", JSON.stringify(_orders));
             resetOrderForm();
-
-            console.log(_orders);
         }
     }
 
     const resetOrderForm = () => {
         setOrder(emptyOrder);
         setProduct(emptyProduct);
+        setSubmitted(false);
     }
 
     return (
@@ -209,8 +208,7 @@ const NewOrder = () => {
                     </div>
                     <div className="field">
                         <label htmlFor="zip" className="col-1">Zip</label>
-                        <InputNumber inputId="zip" value={order.zip} onValueChange={(e) => onInputNumberChange(e, 'zip')} mode="decimal" min={1} max={9999} required autoFocus className={classNames({ 'p-invalid': submitted && !order.zip })} />
-                        {submitted && !order.zip && <small className="p-invalid">Zip is required.</small>}
+                        <InputNumber inputId="zip" value={order.zip} onValueChange={(e) => onInputNumberChange(e, 'zip')} mode="decimal" min={0} max={99999} useGrouping={false} required autoFocus />
                     </div>
                 </div>
                 <div className="card">
@@ -240,8 +238,8 @@ const NewOrder = () => {
                     </div>
                 </div>
                 <div>
-                    <Button label="Confirm" icon="pi pi-check" className="p-button-text" onClick={processOrder} />
-                    <Button label="Reset" icon="pi pi-check" className="p-button-text" onClick={resetOrderForm} />
+                    <Button label="Confirm" icon="pi pi-check" className="mr-2" onClick={processOrder} />
+                    <Button label="Reset" icon="pi pi-refresh" className="p-button-warning" onClick={resetOrderForm} />
                 </div>
             </div>
         </div>

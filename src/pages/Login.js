@@ -29,8 +29,8 @@ const Login = ({setAuthenticated}) => {
             <Toast ref={toast} position="top-right"/>
             <div className="align-items-center flex justify-content-center lg:px-8 md:px-6 px-4 py-8 surface-ground ng-star-inserted">
                 <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
-                    <div className="text-center mb-5">
-                        <img src="images/pages/icon-devices.svg" alt="hyper" height="50" className="mb-3"/>
+                    <div className="text-center mb-3">
+                        <img src="../assets/layout/images/order_logo.png" alt="hyper" style={{ width: '6rem', height:'5rem' }} className="mb-3"/>
                         <div className="text-900 text-3xl font-medium mb-3">Welcome Back</div>
                     </div>
 
